@@ -1,0 +1,13 @@
+---
+pagination:
+  data: pages
+  size: 1
+  alias: wpPage
+permalink: /{{ wpPage.slug }}/
+layout: base.njk
+title: "{{ wpPage.title.rendered }}"
+---
+<article class="prose prose-gray max-w-none">
+  <h1>{{ wpPage.title.rendered }}</h1>
+  {{ wpPage.content.rendered | safe }}
+</article>
