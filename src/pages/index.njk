@@ -5,9 +5,9 @@ pagination:
   alias: wpPage
 permalink: /{{ wpPage.slug }}/
 layout: base.njk
-title: "{{ wpPage.title.rendered }}"
+title: "{{ wpPage.title.rendered | decodeHtml }}"
 ---
 <article class="prose prose-gray max-w-none">
-  <h1>{{ wpPage.title.rendered }}</h1>
+  <h1>{{ wpPage.title.rendered | decodeHtml }}</h1>
   {{ wpPage.content.rendered | safe }}
 </article>

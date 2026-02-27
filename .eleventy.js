@@ -10,6 +10,10 @@ module.exports = function(eleventyConfig) {
 
   eleventyConfig.addShortcode("year", () => `${new Date().getFullYear()}`);
 
+  eleventyConfig.addFilter("decodeHtml", (str) =>
+    str.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#038;/g, "&")
+  );
+
   eleventyConfig.addAsyncShortcode("wpImage", async function(src, alt, className) {
     if (!src) return "";
     const metadata = await Image(src, {

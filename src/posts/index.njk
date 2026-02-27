@@ -5,13 +5,13 @@ pagination:
   alias: post
 permalink: /posts/{{ post.slug }}/
 layout: base.njk
-title: "{{ post.title.rendered }}"
+title: "{{ post.title.rendered | decodeHtml }}"
 ---
 <article class="prose prose-gray max-w-none">
   {% set featuredMedia = post._embedded["wp:featuredmedia"] %}
   {% if featuredMedia and featuredMedia[0].source_url %}
     {% wpImage featuredMedia[0].source_url, featuredMedia[0].alt_text, "w-full rounded mb-6" %}
   {% endif %}
-  <h1>{{ post.title.rendered }}</h1>
+  <h1>{{ post.title.rendered | decodeHtml }}</h1>
   <div>{{ post.content.rendered | safe }}</div>
 </article>

@@ -14,7 +14,7 @@ title: LCD
         </div>
       {% endif %}
       <div class="p-4">
-        <h2 class="text-base font-semibold text-gray-900 leading-snug group-hover:text-blue-600 transition-colors duration-150 mb-1">{{ post.title.rendered }}</h2>
+        <h2 class="text-base font-semibold text-gray-900 leading-snug group-hover:text-blue-600 transition-colors duration-150 mb-1">{{ post.title.rendered | decodeHtml }}</h2>
         <time class="text-xs text-gray-400">{{ post.date | date("YYYY-MM-DD") }}</time>
       </div>
     </a>
