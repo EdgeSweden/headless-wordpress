@@ -1,0 +1,19 @@
+{
+  "name": "lcd-nu",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "concurrently \"eleventy --serve\" \"tailwindcss -i src/assets/css/input.css -o _site/assets/css/style.css --watch\"",
+    "build": "tailwindcss -i src/assets/css/input.css -o _site/assets/css/style.css && eleventy"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "@11ty/eleventy-fetch": "^5.0.0",
+    "@11ty/eleventy-img": "^6.0.4",
+    "@tailwindcss/typography": "^0.5.19",
+    "dotenv": "^17.3.1"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0",
+    "tailwindcss": "^3.4.0"
+  }
+}

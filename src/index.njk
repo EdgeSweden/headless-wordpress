@@ -1,0 +1,23 @@
+---
+layout: base.njk
+title: LCD
+---
+<h1 class="text-3xl font-bold mb-8">Blog</h1>
+<ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 list-none p-0">
+{% for post in posts %}
+  {% set featuredMedia = post._embedded["wp:featuredmedia"] %}
+  <li class="rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200">
+    <a href="/posts/{{ post.slug }}/" class="block group">
+      {% if featuredMedia and featuredMedia[0].source_url %}
+        <div class="aspect-video overflow-hidden bg-gray-100">
+          {% wpImage featuredMedia[0].source_url, featuredMedia[0].alt_text, "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" %}
+        </div>
+      {% endif %}
+      <div class="p-4">
+        <h2 class="text-base font-semibold text-gray-900 leading-snug group-hover:text-blue-600 transition-colors duration-150 mb-1">{{ post.title.rendered }}</h2>
+        <time class="text-xs text-gray-400">{{ post.date | date("YYYY-MM-DD") }}</time>
+      </div>
+    </a>
+  </li>
+{% endfor %}
+</ul>

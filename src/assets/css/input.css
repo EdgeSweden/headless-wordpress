@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+picture {
+  display: block;
+  width: 100%;
+}
