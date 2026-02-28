@@ -10,6 +10,6 @@ title: "{{ wpPage.title.rendered | decodeHtml }}"
 <div class="w-[80%] lg:w-[55%] mx-auto px-4">
   <article class="prose prose-gray max-w-none">
     <h1>{{ wpPage.title.rendered | decodeHtml }}</h1>
-    {{ wpPage.content.rendered | safe }}
+    {{ wpPage.content.rendered | rewriteInternalLinks | safe }}
   </article>
 </div>

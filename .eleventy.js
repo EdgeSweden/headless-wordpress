@@ -35,6 +35,14 @@ module.exports = function(eleventyConfig) {
     categoryColors[slug] || "bg-gray-100 text-gray-600"
   );
 
+  const wpOrigin = process.env.WP_API_URL
+    ? new URL(process.env.WP_API_URL).origin
+    : null;
+  eleventyConfig.addFilter("rewriteInternalLinks", (content) => {
+    if (!wpOrigin) return content;
+    return content.replaceAll(wpOrigin, "");
+  });
+
   eleventyConfig.addFilter("decodeHtml", (str) =>
     str.replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#038;/g, "&")
   );

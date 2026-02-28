@@ -16,7 +16,7 @@ title: LCD
       {% set featuredMedia = post._embedded["wp:featuredmedia"] %}
       {% set primaryCat = post._embedded["wp:term"][0][0] %}
       <li class="rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200 flex flex-col">
-        <a href="/posts/{{ post.slug }}/" class="flex flex-col flex-1 group">
+        <a href="/{{ post.slug }}/" class="flex flex-col flex-1 group">
           {% if featuredMedia and featuredMedia[0].source_url %}
             <div class="aspect-video overflow-hidden bg-gray-100">
               {% wpImage featuredMedia[0].source_url, featuredMedia[0].alt_text, "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" %}
@@ -51,7 +51,7 @@ title: LCD
       {% set featuredMedia = post._embedded["wp:featuredmedia"] %}
       {% set primaryCat = post._embedded["wp:term"][0][0] %}
       <li class="rounded-xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow duration-200 flex flex-col">
-        <a href="/posts/{{ post.slug }}/" class="flex flex-col flex-1 group">
+        <a href="/{{ post.slug }}/" class="flex flex-col flex-1 group">
           {% if featuredMedia and featuredMedia[0].source_url %}
             <div class="aspect-video overflow-hidden bg-gray-100">
               {% wpImage featuredMedia[0].source_url, featuredMedia[0].alt_text, "w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" %}
