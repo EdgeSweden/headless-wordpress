@@ -7,11 +7,28 @@ permalink: /posts/{{ post.slug }}/
 layout: base.njk
 title: "{{ post.title.rendered | decodeHtml }}"
 ---
-<article class="prose prose-gray max-w-none">
-  {% set featuredMedia = post._embedded["wp:featuredmedia"] %}
+{% set featuredMedia = post._embedded["wp:featuredmedia"] %}
+
+{# ── Hero ─────────────────────────────────────────────────────────── #}
+<div class="w-full lg:w-[75%] mx-auto">
   {% if featuredMedia and featuredMedia[0].source_url %}
-    {% wpImage featuredMedia[0].source_url, featuredMedia[0].alt_text, "w-full rounded mb-6" %}
+    <div class="relative aspect-video overflow-hidden lg:rounded-2xl">
+      {% wpImage featuredMedia[0].source_url, featuredMedia[0].alt_text, "absolute inset-0 w-full h-full object-cover" %}
+      <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
+      <div class="absolute inset-0 flex items-center justify-center px-8 pb-[10vw] lg:pb-[8vw]">
+        <h1 class="text-white text-2xl lg:text-4xl font-bold leading-tight drop-shadow text-center">{{ post.title.rendered | decodeHtml }}</h1>
+      </div>
+    </div>
+  {% else %}
+    <div class="relative bg-gray-900 lg:rounded-2xl flex items-center justify-center px-8 py-24 pb-[14vw] lg:pb-[10vw]">
+      <h1 class="text-white text-2xl lg:text-4xl font-bold leading-tight text-center">{{ post.title.rendered | decodeHtml }}</h1>
+    </div>
   {% endif %}
-  <h1>{{ post.title.rendered | decodeHtml }}</h1>
-  <div>{{ post.content.rendered | safe }}</div>
-</article>
+</div>
+
+{# ── Article (overlaps hero by ~20%) ──────────────────────────────── #}
+<div class="relative -mt-[10vw] lg:-mt-[8vw] z-10 w-[90%] lg:w-[65%] mx-auto">
+  <article class="bg-white rounded-2xl shadow-xl px-8 py-10 lg:px-14 lg:py-12 prose prose-gray max-w-none">
+    {{ post.content.rendered | safe }}
+  </article>
+</div>
