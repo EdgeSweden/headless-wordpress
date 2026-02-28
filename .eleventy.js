@@ -40,7 +40,11 @@ module.exports = function(eleventyConfig) {
     : null;
   eleventyConfig.addFilter("rewriteInternalLinks", (content) => {
     if (!wpOrigin) return content;
-    return content.replaceAll(wpOrigin, "");
+    const placeholder = "\x00WP_UPLOADS\x00";
+    return content
+      .replaceAll(`${wpOrigin}/wp-content/uploads`, placeholder)
+      .replaceAll(wpOrigin, "")
+      .replaceAll(placeholder, `${wpOrigin}/wp-content/uploads`);
   });
 
   eleventyConfig.addFilter("decodeHtml", (str) =>
@@ -62,6 +66,49 @@ module.exports = function(eleventyConfig) {
       sizes: "100vw",
       loading: "lazy",
       decoding: "async"
+    });
+  });
+
+  eleventyConfig.addTransform("localizeInlineImages", async function(content, outputPath) {
+    if (!outputPath?.endsWith(".html") || !wpOrigin) return content;
+
+    const uploadPrefix = `${wpOrigin}/wp-content/uploads/`;
+    const srcToAlt = new Map();
+    const imgRe = /<img([^>]*)>/g;
+    let m;
+    while ((m = imgRe.exec(content)) !== null) {
+      const attrs = m[1];
+      const src = attrs.match(/\bsrc="([^"]+)"/)?.[1];
+      if (!src?.startsWith(uploadPrefix)) continue;
+      if (!srcToAlt.has(src)) {
+        srcToAlt.set(src, attrs.match(/\balt="([^"]*)"/)?.[1] ?? "");
+      }
+    }
+    if (!srcToAlt.size) return content;
+
+    const replacements = new Map();
+    await Promise.all([...srcToAlt.entries()].map(async ([src, alt]) => {
+      try {
+        const metadata = await Image(src, {
+          widths: [800, 1200],
+          formats: ["webp", "jpeg"],
+          outputDir: "./_site/assets/images/",
+          urlPath: "/assets/images/",
+          cacheOptions: { duration: "1d", directory: ".cache" }
+        });
+        replacements.set(src, Image.generateHTML(metadata, {
+          alt,
+          sizes: "(max-width: 768px) 100vw, 65vw",
+          loading: "lazy",
+          decoding: "async",
+          class: "w-full h-auto rounded my-4"
+        }));
+      } catch (_) { /* leave original on error */ }
+    }));
+
+    return content.replace(/<img([^>]*)>/g, (full, attrs) => {
+      const src = attrs.match(/\bsrc="([^"]+)"/)?.[1];
+      return (src && replacements.has(src)) ? replacements.get(src) : full;
     });
   });
 

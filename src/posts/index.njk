@@ -28,7 +28,7 @@ title: "{{ post.title.rendered | decodeHtml }}"
 
 {# ── Article (overlaps hero by ~20%) ──────────────────────────────── #}
 <div class="relative -mt-[10vw] lg:-mt-[8vw] z-10 w-[90%] lg:w-[65%] mx-auto">
-  <article class="bg-white rounded-2xl shadow-xl px-8 py-10 lg:px-14 lg:py-12 prose prose-gray max-w-none">
+  <article class="bg-white rounded-2xl shadow-xl px-8 py-10 lg:px-14 lg:py-12 prose prose-gray max-w-none [&_figure]:max-w-full [&_img]:max-w-full [&_picture]:block">
     {{ post.content.rendered | rewriteInternalLinks | safe }}
   </article>
 </div>
